@@ -1,0 +1,114 @@
+body {
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background: linear-gradient(120deg, #e3eaff 0%, #ffffff 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 2rem 0;
+    width: 100%;
+    max-width: 1400px;
+}
+
+.card {
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.10);
+    overflow: hidden;
+    max-width: 370px;
+    width: 100%;
+    transition: box-shadow 0.3s, transform 0.3s, background 0.3s;
+    display: flex;
+    flex-direction: column;
+}
+
+.card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+}
+
+.card-content {
+    padding: 1.5rem 2rem 2rem 2rem;
+}
+
+.card-one h2 {
+    font-family: 'Poppins', sans-serif;
+    color: #5a6dff;
+    font-size: 2rem;
+    margin: 0 0 0.5rem 0;
+}
+.card-one p {
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    line-height: 1.6;
+}
+
+.card-two h2 {
+    font-family: 'Roboto', sans-serif;
+    color: #2196f3;
+    font-size: 2rem;
+    margin: 0 0 0.5rem 0;
+}
+.card-two p {
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    line-height: 1.6;
+}
+
+.card-three h2 {
+    font-family: 'Playfair Display', serif;
+    color: #b14cff;
+    font-size: 2rem;
+    margin: 0 0 0.5rem 0;
+}
+.card-three p {
+    font-family: 'Playfair Display', serif;
+    color: #333;
+    line-height: 1.6;
+}
+
+.card:hover {
+    box-shadow: 0 12px 32px rgba(90,109,255,0.18);
+    transform: translateY(-8px) scale(1.03);
+    background: #f5f7ff;
+}
+
+@media (max-width: 600px) {
+    .container {
+        flex-direction: column;
+        gap: 1.5rem;
+        align-items: center;
+        padding: 1rem 0;
+    }
+    .card {
+        max-width: 90%;
+        width: 90%;
+    }
+    .card img {
+        height: 180px;
+    }
+    .card-content {
+        padding: 1rem 1.2rem 1.5rem 1.2rem;
+    }
+}
+
+@media (min-width: 601px) {
+    .container {
+        flex-direction: row;
+        gap: 2rem;
+    }
+    .card {
+        max-width: 32%;
+    }
+}
