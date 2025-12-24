@@ -1,0 +1,44 @@
+.container {
+  min-height: 100vh;
+  min-width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f6fa;
+}
+.card {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
+  text-align: center;
+}
+.title {
+  color: #00b894;
+  margin-bottom: 24px;
+}
+.info {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+.role {
+  font-size: 16px;
+  margin-bottom: 24px;
+  color: #00b894;
+  font-weight: 600;
+}
+.button {
+  background: #0984e3;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 24px;
+  font-size: 16px;
+  cursor: pointer;
+}
