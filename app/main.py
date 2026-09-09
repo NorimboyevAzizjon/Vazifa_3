@@ -1,5 +1,7 @@
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 
 from app.config import settings
 from app.database import engine, Base
@@ -35,13 +37,11 @@ app.include_router(debts_router, prefix=settings.API_V1_STR)
 app.include_router(monitoring_router, prefix=settings.API_V1_STR)
 
 
-import os
-from fastapi.responses import FileResponse
-
 # Static folder path
 STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")
 
-@app.get("/", tags=["UI App"], summary="Debt Manager vizual ilovasi")
+
+@app.get("/", tags=["UI App"], summary="Debt Manager vizual veb ilovasi")
 def serve_ui():
     index_path = os.path.join(STATIC_DIR, "index.html")
     if os.path.exists(index_path):
