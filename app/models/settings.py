@@ -13,7 +13,7 @@ class UserSettings(Base):
     reminder_time = Column(String(10), default="09:00", nullable=False)
     reminder_days_before = Column(Integer, default=1, nullable=False)
     notifications_enabled = Column(Boolean, default=True, nullable=False)
-    updated_at = Column(DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
+    updated_at = Column(DateTime, default=lambda: datetime.datetime.now(datetime.timezone.utc), onupdate=lambda: datetime.datetime.now(datetime.timezone.utc))
 
     # Relationships
     user = relationship("User", back_populates="settings")

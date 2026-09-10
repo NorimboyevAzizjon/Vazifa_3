@@ -23,12 +23,12 @@ class Debt(Base):
     description = Column(Text, nullable=True)
 
     is_paid = Column(Boolean, default=False, nullable=False, index=True)  # Fully paid status
-    date_incurred = Column(DateTime, default=datetime.datetime.utcnow, nullable=False)
+    date_incurred = Column(DateTime, default=lambda: datetime.datetime.now(datetime.timezone.utc), nullable=False)
     date_due = Column(DateTime, nullable=True)
     reminder_enabled = Column(Boolean, default=False, nullable=False)
 
-    created_at = Column(DateTime, default=datetime.datetime.utcnow, nullable=False)
-    updated_at = Column(DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow, nullable=False)
+    created_at = Column(DateTime, default=lambda: datetime.datetime.now(datetime.timezone.utc), nullable=False)
+    updated_at = Column(DateTime, default=lambda: datetime.datetime.now(datetime.timezone.utc), onupdate=lambda: datetime.datetime.now(datetime.timezone.utc), nullable=False)
 
     # Relationships
     user = relationship("User", back_populates="debts")
