@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Debt Manager — Qarzlarni Hisoblash va Monitoring Tizimi</title>
+  <title>Debt Manager Pro — Zamonaviy Qarzlarni Boshqarish Tizimi</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -13,20 +13,25 @@
       --primary-hover: #1d4ed8;
       --primary-subtle: #eff6ff;
       --success: #10b981;
+      --success-hover: #059669;
       --success-subtle: #ecfdf5;
       --danger: #ef4444;
+      --danger-hover: #dc2626;
       --danger-subtle: #fef2f2;
       --warning: #f59e0b;
       --warning-subtle: #fffbeb;
-      --bg: #f1f5f9;
+      --purple: #8b5cf6;
+      --purple-subtle: #f5f3ff;
+      --bg: #f8fafc;
       --surface: #ffffff;
       --text-main: #0f172a;
       --text-muted: #64748b;
       --border: #e2e8f0;
-      --radius: 14px;
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
-      --shadow: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
-      --shadow-lg: 0 12px 24px -4px rgba(0,0,0,0.08), 0 4px 8px -2px rgba(0,0,0,0.04);
+      --radius: 16px;
+      --radius-sm: 10px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+      --shadow: 0 4px 10px -1px rgba(0,0,0,0.06), 0 2px 4px -2px rgba(0,0,0,0.04);
+      --shadow-lg: 0 14px 28px -4px rgba(0,0,0,0.08), 0 4px 10px -2px rgba(0,0,0,0.04);
     }
 
     * {
@@ -43,6 +48,20 @@
       display: flex;
       flex-direction: column;
     }
+
+    /* SVG Icon Style Helper */
+    .svg-icon {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      vertical-align: middle;
+    }
+    .svg-icon.lg { width: 24px; height: 24px; }
+    .svg-icon.sm { width: 15px; height: 15px; }
 
     /* Top Navbar */
     header {
@@ -61,6 +80,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 20px;
     }
 
     .brand {
@@ -80,14 +100,26 @@
       align-items: center;
       justify-content: center;
       color: white;
-      font-size: 22px;
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+      box-shadow: 0 6px 14px rgba(37, 99, 235, 0.35);
     }
 
     .brand-titles h1 {
-      font-size: 19px;
+      font-size: 20px;
       font-weight: 800;
-      letter-spacing: -0.3px;
+      letter-spacing: -0.4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      background: var(--primary-subtle);
+      color: var(--primary);
+      border-radius: 6px;
+      text-transform: uppercase;
     }
 
     .brand-titles p {
@@ -135,31 +167,37 @@
       border-color: #cbd5e1;
     }
 
+    .btn-demo {
+      background: #f1f5f9;
+      color: #334155;
+      border-color: #e2e8f0;
+      font-size: 13px;
+    }
+    .btn-demo:hover {
+      background: #e2e8f0;
+    }
+
     /* Main Container */
     main {
       flex: 1;
       max-width: 1440px;
       width: 100%;
       margin: 0 auto;
-      padding: 32px;
+      padding: 28px 32px 60px 32px;
       display: flex;
       flex-direction: column;
-      gap: 28px;
+      gap: 26px;
     }
 
-    /* Top Dashboard KPI Cards */
+    /* Top KPI Cards */
     .kpi-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 20px;
     }
 
-    @media (max-width: 1100px) {
-      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 600px) {
-      .kpi-grid { grid-template-columns: 1fr; }
-    }
+    @media (max-width: 1150px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 640px) { .kpi-grid { grid-template-columns: 1fr; } }
 
     .kpi-card {
       background: var(--surface);
@@ -172,11 +210,11 @@
       justify-content: space-between;
       position: relative;
       overflow: hidden;
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: all 0.2s ease;
     }
 
     .kpi-card:hover {
-      transform: translateY(-2px);
+      transform: translateY(-3px);
       box-shadow: var(--shadow-lg);
     }
 
@@ -192,7 +230,7 @@
     .kpi-card.green::before { background: var(--success); }
     .kpi-card.red::before { background: var(--danger); }
     .kpi-card.blue::before { background: var(--primary); }
-    .kpi-card.purple::before { background: #8b5cf6; }
+    .kpi-card.purple::before { background: var(--purple); }
 
     .kpi-header {
       display: flex;
@@ -209,41 +247,45 @@
       letter-spacing: 0.5px;
     }
 
-    .kpi-icon-pill {
+    .kpi-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
       font-size: 12px;
       font-weight: 700;
       padding: 4px 10px;
       border-radius: 20px;
     }
 
-    .kpi-icon-pill.green { background: var(--success-subtle); color: var(--success); }
-    .kpi-icon-pill.red { background: var(--danger-subtle); color: var(--danger); }
-    .kpi-icon-pill.blue { background: var(--primary-subtle); color: var(--primary); }
-    .kpi-icon-pill.purple { background: #f5f3ff; color: #8b5cf6; }
+    .kpi-badge.green { background: var(--success-subtle); color: var(--success); }
+    .kpi-badge.red { background: var(--danger-subtle); color: var(--danger); }
+    .kpi-badge.blue { background: var(--primary-subtle); color: var(--primary); }
+    .kpi-badge.purple { background: var(--purple-subtle); color: var(--purple); }
 
     .kpi-amount {
-      font-size: 30px;
+      font-size: 32px;
       font-weight: 800;
-      letter-spacing: -0.5px;
+      letter-spacing: -0.8px;
       margin-bottom: 6px;
-      line-height: 1.1;
+      line-height: 1.15;
     }
 
     .kpi-amount.green { color: var(--success); }
     .kpi-amount.red { color: var(--danger); }
     .kpi-amount.blue { color: var(--primary); }
+    .kpi-amount.purple { color: var(--purple); }
 
     .kpi-note {
       font-size: 13px;
       color: var(--text-muted);
     }
 
-    /* Currency Breakdown Pills Bar */
-    .currency-pills-bar {
+    /* Currency Breakdown Row */
+    .currency-row {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 14px 20px;
+      padding: 14px 22px;
       display: flex;
       align-items: center;
       gap: 16px;
@@ -251,27 +293,30 @@
       box-shadow: var(--shadow-sm);
     }
 
-    .currency-pill-label {
+    .currency-row-title {
       font-size: 13px;
       font-weight: 700;
       color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
-    .currency-badge {
+    .currency-pill {
       background: #f8fafc;
       border: 1px solid var(--border);
       padding: 6px 14px;
       border-radius: 8px;
-      font-size: 13px;
+      font-size: 13.5px;
       font-weight: 600;
       display: flex;
-      gap: 8px;
       align-items: center;
+      gap: 8px;
     }
 
-    /* Content Data Card */
+    /* Main Data Table Card */
     .data-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -280,7 +325,6 @@
       overflow: hidden;
     }
 
-    /* Navigation Tabs & Toolbar */
     .data-toolbar {
       padding: 20px 24px;
       border-bottom: 1px solid var(--border);
@@ -292,7 +336,7 @@
       background: white;
     }
 
-    .tabs-container {
+    .tabs-wrapper {
       display: flex;
       background: #f1f5f9;
       padding: 5px;
@@ -300,12 +344,12 @@
       gap: 6px;
     }
 
-    .tab-item {
-      padding: 10px 22px;
+    .tab-btn {
+      padding: 10px 20px;
       border-radius: 9px;
       border: none;
       background: transparent;
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 700;
       color: var(--text-muted);
       cursor: pointer;
@@ -315,61 +359,64 @@
       gap: 8px;
     }
 
-    .tab-item.active {
+    .tab-btn.active {
       background: var(--surface);
       color: var(--primary);
       box-shadow: 0 2px 6px rgba(0,0,0,0.06);
     }
 
-    .filter-actions {
+    .filter-group {
       display: flex;
       align-items: center;
       gap: 12px;
       flex-wrap: wrap;
     }
 
-    .search-box {
+    .search-wrapper {
       position: relative;
     }
 
-    .search-box input {
-      padding: 10px 14px 10px 38px;
+    .search-wrapper input {
+      padding: 10px 14px 10px 40px;
       border: 1px solid var(--border);
       border-radius: 10px;
       font-size: 13.5px;
       outline: none;
-      width: 240px;
-      transition: border-color 0.2s, width 0.2s;
+      width: 250px;
+      transition: all 0.2s;
     }
 
-    .search-box input:focus {
+    .search-wrapper input:focus {
       border-color: var(--primary);
-      width: 280px;
+      width: 290px;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
     }
 
-    .search-icon {
+    .search-icon-pos {
       position: absolute;
-      left: 12px;
+      left: 14px;
       top: 50%;
       transform: translateY(-50%);
       color: var(--text-muted);
-      font-size: 15px;
+      display: flex;
     }
 
-    .custom-select {
+    .select-styled {
       padding: 10px 14px;
       border: 1px solid var(--border);
       border-radius: 10px;
       font-size: 13.5px;
       background: white;
       color: var(--text-main);
-      font-weight: 500;
+      font-weight: 600;
       outline: none;
       cursor: pointer;
+      transition: border-color 0.2s;
     }
+    .select-styled:focus { border-color: var(--primary); }
 
-    /* Desktop Table Styles */
-    .table-container {
+    /* Modern Table */
+    .table-responsive {
       width: 100%;
       overflow-x: auto;
     }
@@ -398,25 +445,21 @@
       font-size: 14px;
     }
 
-    tbody tr {
-      transition: background 0.15s;
-    }
-
     tbody tr:hover {
       background: #f8fafc;
     }
 
-    .user-profile-cell {
+    .user-cell {
       display: flex;
       align-items: center;
       gap: 14px;
     }
 
-    .avatar {
+    .user-avatar {
       width: 42px;
       height: 42px;
       border-radius: 12px;
-      background: #e2e8f0;
+      background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -426,19 +469,19 @@
       flex-shrink: 0;
     }
 
-    .user-name-text {
+    .user-name {
       font-weight: 700;
       color: var(--text-main);
       font-size: 14.5px;
     }
 
-    .user-desc-text {
+    .user-desc {
       font-size: 13px;
       color: var(--text-muted);
       margin-top: 2px;
     }
 
-    .badge-type {
+    .type-pill {
       display: inline-flex;
       align-items: center;
       gap: 6px;
@@ -448,19 +491,18 @@
       font-weight: 700;
     }
 
-    .badge-type.owed-to { background: var(--success-subtle); color: var(--success); }
-    .badge-type.owed-by { background: var(--danger-subtle); color: var(--danger); }
+    .type-pill.owed-to { background: var(--success-subtle); color: var(--success); }
+    .type-pill.owed-by { background: var(--danger-subtle); color: var(--danger); }
 
-    .amount-display {
+    .amount-text {
       font-size: 16px;
       font-weight: 800;
-      letter-spacing: -0.2px;
+      letter-spacing: -0.3px;
     }
+    .amount-text.green { color: var(--success); }
+    .amount-text.red { color: var(--danger); }
 
-    .amount-display.green { color: var(--success); }
-    .amount-display.red { color: var(--danger); }
-
-    .badge-status {
+    .status-pill {
       display: inline-flex;
       align-items: center;
       gap: 6px;
@@ -469,11 +511,10 @@
       font-size: 12px;
       font-weight: 600;
     }
+    .status-pill.paid { background: #dcfce7; color: #15803d; }
+    .status-pill.unpaid { background: #fef3c7; color: #b45309; }
 
-    .badge-status.paid { background: #dcfce7; color: #166534; }
-    .badge-status.unpaid { background: #fef3c7; color: #92400e; }
-
-    .btn-action {
+    .btn-delete {
       background: none;
       border: 1px solid var(--border);
       padding: 6px 12px;
@@ -481,26 +522,27 @@
       font-size: 13px;
       color: var(--text-muted);
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       transition: all 0.15s;
     }
-
-    .btn-action:hover {
+    .btn-delete:hover {
       background: #fee2e2;
       border-color: #fca5a5;
       color: var(--danger);
     }
 
-    .empty-state-box {
+    .empty-state {
       padding: 80px 20px;
       text-align: center;
       color: var(--text-muted);
     }
-
-    .empty-state-box h4 {
-      font-size: 16px;
+    .empty-state h4 {
+      font-size: 17px;
       font-weight: 700;
       color: var(--text-main);
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
     /* Modal Backdrop & Dialog */
@@ -515,14 +557,11 @@
       justify-content: center;
       padding: 24px;
     }
-
-    .modal-backdrop.active {
-      display: flex;
-    }
+    .modal-backdrop.active { display: flex; }
 
     .modal-dialog {
       background: var(--surface);
-      border-radius: 18px;
+      border-radius: 20px;
       max-width: 580px;
       width: 100%;
       box-shadow: var(--shadow-lg);
@@ -531,12 +570,12 @@
     }
 
     @keyframes modalPop {
-      from { opacity: 0; transform: scale(0.95); }
+      from { opacity: 0; transform: scale(0.96); }
       to { opacity: 1; transform: scale(1); }
     }
 
     .modal-header {
-      padding: 20px 28px;
+      padding: 22px 28px;
       border-bottom: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
@@ -552,10 +591,14 @@
     .btn-close {
       background: none;
       border: none;
-      font-size: 22px;
+      font-size: 20px;
       cursor: pointer;
       color: var(--text-muted);
+      display: flex;
+      padding: 4px;
+      border-radius: 6px;
     }
+    .btn-close:hover { background: #e2e8f0; }
 
     .modal-body {
       padding: 28px;
@@ -584,10 +627,7 @@
       outline: none;
       transition: border-color 0.2s;
     }
-
-    .form-control:focus {
-      border-color: var(--primary);
-    }
+    .form-control:focus { border-color: var(--primary); }
 
     .form-row-2 {
       display: grid;
@@ -595,14 +635,14 @@
       gap: 16px;
     }
 
-    .type-radio-selector {
+    .type-switcher-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 14px;
       margin-bottom: 22px;
     }
 
-    .radio-card {
+    .radio-card-type {
       border: 2px solid var(--border);
       border-radius: 12px;
       padding: 14px;
@@ -611,19 +651,19 @@
       font-weight: 700;
       font-size: 14px;
       transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
+    .radio-card-type input { display: none; }
 
-    .radio-card input {
-      display: none;
-    }
-
-    .radio-card.active-to {
+    .radio-card-type.active-to {
       border-color: var(--success);
       background: var(--success-subtle);
       color: var(--success);
     }
-
-    .radio-card.active-by {
+    .radio-card-type.active-by {
       border-color: var(--danger);
       background: var(--danger-subtle);
       color: var(--danger);
@@ -641,40 +681,61 @@
 </head>
 <body>
 
-  <!-- Desktop Header Navbar -->
+  <!-- Modern Top Navigation Header -->
   <header>
     <div class="navbar">
       <a href="/" class="brand">
-        <div class="brand-logo">💳</div>
+        <div class="brand-logo">
+          <!-- Wallet SVG -->
+          <svg class="svg-icon lg" viewBox="0 0 24 24">
+            <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"></path>
+            <path d="M3 5v14a2 2 0 0 0 2 2h16v-5"></path>
+            <path d="M18 12a2 2 0 0 0 0 4h4v-4Z"></path>
+          </svg>
+        </div>
         <div class="brand-titles">
-          <h1>Debt Manager Pro</h1>
+          <h1>Debt Manager Pro <span class="brand-badge">FastAPI + PostgreSQL</span></h1>
           <p>Qarzlarni Hisoblash va Monitoring Tizimi (Kompyuter Dashboard)</p>
         </div>
       </a>
+
       <div class="nav-buttons">
-        <a href="/docs" target="_blank" class="btn btn-outline" title="FastAPI Swagger Dokumentatsiyasi">
-          <span>📘</span> Swagger REST API
-        </a>
-        <button class="btn btn-outline" onclick="openSettingsModal()">
-          <span>⚙️</span> Sozlamalar
+        <button class="btn btn-demo" onclick="seedDemoData()" title="Namuna ma'lumotlarni yuklash">
+          <svg class="svg-icon sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          Namuna Ma'lumotlar
         </button>
+
+        <a href="/docs" target="_blank" class="btn btn-outline" title="Swagger REST API">
+          <svg class="svg-icon" viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"></path><path d="M6 6h10"></path><path d="M6 10h10"></path></svg>
+          Swagger API
+        </a>
+
+        <button class="btn btn-outline" onclick="openSettingsModal()">
+          <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          Sozlamalar
+        </button>
+
         <button class="btn btn-primary" onclick="openNewDebtModal()">
-          <span>➕</span> Yangi Qarz Qo'shish
+          <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+          Yangi Qarz Qo'shish
         </button>
       </div>
     </div>
   </header>
 
-  <!-- Main Content Container -->
+  <!-- Main Container -->
   <main>
 
-    <!-- Row 1: Top Dashboard KPI Summary Cards -->
+    <!-- Top KPI Grid -->
     <div class="kpi-grid">
       <!-- 1. Umumiy Berilgan Qarz -->
       <div class="kpi-card green">
         <div class="kpi-header">
           <span class="kpi-title">Umumiy Qarz Berilgan</span>
-          <span class="kpi-icon-pill green">Owed To Me</span>
+          <span class="kpi-badge green">
+            <svg class="svg-icon sm" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+            Owed To Me
+          </span>
         </div>
         <div class="kpi-amount green" id="totalOwedTo">UZS 0.00</div>
         <div class="kpi-note" id="owedToNote">Sizdan qarzdor bo'lganlar summasi</div>
@@ -684,7 +745,10 @@
       <div class="kpi-card red">
         <div class="kpi-header">
           <span class="kpi-title">Umumiy Qarz Olingan</span>
-          <span class="kpi-icon-pill red">Owed By Me</span>
+          <span class="kpi-badge red">
+            <svg class="svg-icon sm" viewBox="0 0 24 24"><line x1="17" y1="7" x2="7" y2="17"></line><polyline points="17 17 7 17 7 7"></polyline></svg>
+            Owed By Me
+          </span>
         </div>
         <div class="kpi-amount red" id="totalOwedBy">UZS 0.00</div>
         <div class="kpi-note" id="owedByNote">Siz to'lashingiz kerak bo'lgan summa</div>
@@ -694,7 +758,10 @@
       <div class="kpi-card blue">
         <div class="kpi-header">
           <span class="kpi-title">Joriy Balans (Farq)</span>
-          <span class="kpi-icon-pill blue">Net Balance</span>
+          <span class="kpi-badge blue">
+            <svg class="svg-icon sm" viewBox="0 0 24 24"><path d="m3 16 4-4 4 4 4-4 4 4"></path><path d="M17 10h4v4"></path></svg>
+            Net Balance
+          </span>
         </div>
         <div class="kpi-amount blue" id="currentBalance">UZS 0.00</div>
         <div class="kpi-note" id="balanceNote">Qarzlar farqi (Berilgan - Olingan)</div>
@@ -704,64 +771,75 @@
       <div class="kpi-card purple">
         <div class="kpi-header">
           <span class="kpi-title">Qarzlar Statistikasi</span>
-          <span class="kpi-icon-pill purple">Harakatlar</span>
+          <span class="kpi-badge purple">
+            <svg class="svg-icon sm" viewBox="0 0 24 24"><path d="M3 3v18h18"></path><path d="m19 9-5 5-4-4-3 3"></path></svg>
+            Harakatlar
+          </span>
         </div>
-        <div class="kpi-amount" style="color:#7c3aed;" id="totalCountDisplay">0 ta</div>
-        <div class="kpi-note" id="statsCountNote">Faol va to'langan qarzlar soni</div>
+        <div class="kpi-amount purple" id="totalCountDisplay">0 ta</div>
+        <div class="kpi-note" id="statsCountNote">0 faol / 0 to'langan</div>
       </div>
     </div>
 
-    <!-- Row 2: Valyutalar bo'yicha taqsimot -->
-    <div class="currency-pills-bar" id="currencyPillsContainer">
-      <span class="currency-pill-label">Valyutalar bo'yicha hisob:</span>
-      <div class="currency-badge">
+    <!-- Valyutalar taqsimot qatori -->
+    <div class="currency-row" id="currencyPillsContainer">
+      <span class="currency-row-title">
+        <svg class="svg-icon sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path><path d="M12 18V6"></path></svg>
+        Valyutalar bo'yicha hisob:
+      </span>
+      <div class="currency-pill">
         <span>UZS:</span>
         <strong id="uzsPill">0.00</strong>
       </div>
     </div>
 
-    <!-- Row 3: Asosiy Ma'lumotlar Jadvali (Data Card) -->
+    <!-- Asosiy Jadval Kartasi -->
     <div class="data-card">
       <div class="data-toolbar">
         <!-- 3 ta Filtr Tablari -->
-        <div class="tabs-container">
-          <button class="tab-item active" id="tab-owed_to" onclick="changeTab('owed_to')">
-            <span>🟢</span> Berilgan Qarzlar (Owed To Me)
+        <div class="tabs-wrapper">
+          <button class="tab-btn active" id="tab-owed_to" onclick="switchTab('owed_to')">
+            <svg class="svg-icon sm" style="color:var(--success);" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+            Berilgan Qarzlar (Owed To Me)
           </button>
-          <button class="tab-item" id="tab-owed_by" onclick="changeTab('owed_by')">
-            <span>🔴</span> Olingan Qarzlar (Owed By Me)
+          <button class="tab-btn" id="tab-owed_by" onclick="switchTab('owed_by')">
+            <svg class="svg-icon sm" style="color:var(--danger);" viewBox="0 0 24 24"><line x1="17" y1="7" x2="7" y2="17"></line><polyline points="17 17 7 17 7 7"></polyline></svg>
+            Olingan Qarzlar (Owed By Me)
           </button>
-          <button class="tab-item" id="tab-individual" onclick="changeTab('individual')">
-            <span>👥</span> Individual Hisobot (Har bir inson)
+          <button class="tab-btn" id="tab-individual" onclick="switchTab('individual')">
+            <svg class="svg-icon sm" style="color:var(--primary);" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            Individual Hisobot (Har bir inson)
           </button>
         </div>
 
         <!-- Qidiruv va Saralash -->
-        <div class="filter-actions">
-          <div class="search-box">
-            <span class="search-icon">🔍</span>
-            <input type="text" id="searchInput" placeholder="Ism yoki tavsif bo'yicha..." oninput="filterLocalSearch()" />
+        <div class="filter-group">
+          <div class="search-wrapper">
+            <span class="search-icon-pos">
+              <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </span>
+            <input type="text" id="searchInput" placeholder="Ism yoki tavsif bo'yicha..." oninput="filterSearch()" />
           </div>
 
-          <select id="sortField" class="custom-select" onchange="fetchDebtsData()">
+          <select id="sortField" class="select-styled" onchange="loadDebts()">
             <option value="date_incurred">Sana bo'yicha</option>
             <option value="amount">Summa bo'yicha</option>
             <option value="name">Shaxs ismi bo'yicha</option>
           </select>
 
-          <select id="sortOrder" class="custom-select" onchange="fetchDebtsData()">
-            <option value="desc">Kamayish tartibida (DESC) ▾</option>
-            <option value="asc">O'sish tartibida (ASC) ▴</option>
+          <select id="sortOrder" class="select-styled" onchange="loadDebts()">
+            <option value="desc">Kamayish (DESC) ▾</option>
+            <option value="asc">O'sish (ASC) ▴</option>
           </select>
         </div>
       </div>
 
       <!-- Jadval -->
-      <div class="table-container">
+      <div class="table-responsive">
         <table>
           <thead id="tableHead"></thead>
           <tbody id="tableBody">
-            <tr><td colspan="7" class="empty-state-box">Ma'lumotlar yuklanmoqda...</td></tr>
+            <tr><td colspan="7" class="empty-state">Yuklanmoqda...</td></tr>
           </tbody>
         </table>
       </div>
@@ -774,18 +852,22 @@
     <div class="modal-dialog">
       <div class="modal-header">
         <h3>Yangi Qarz Kiritish</h3>
-        <button class="btn-close" onclick="closeNewDebtModal()">✕</button>
+        <button class="btn-close" onclick="closeNewDebtModal()">
+          <svg class="svg-icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
       </div>
-      <form id="newDebtForm" onsubmit="submitNewDebt(event)">
+      <form id="newDebtForm" onsubmit="handleSaveDebt(event)">
         <div class="modal-body">
-          <div class="type-radio-selector">
-            <label class="radio-card active-to" id="radio-card-to">
+          <div class="type-switcher-grid">
+            <label class="radio-card-type active-to" id="radio-card-to">
               <input type="radio" name="modal_type" value="owed_to" checked onchange="handleTypeChange()">
-              🟢 Berilgan Qarz (Owed To Me)
+              <svg class="svg-icon" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+              Berilgan Qarz (Owed To Me)
             </label>
-            <label class="radio-card" id="radio-card-by">
+            <label class="radio-card-type" id="radio-card-by">
               <input type="radio" name="modal_type" value="owed_by" onchange="handleTypeChange()">
-              🔴 Olingan Qarz (Owed By Me)
+              <svg class="svg-icon" viewBox="0 0 24 24"><line x1="17" y1="7" x2="7" y2="17"></line><polyline points="17 17 7 17 7 7"></polyline></svg>
+              Olingan Qarz (Owed By Me)
             </label>
           </div>
 
@@ -802,8 +884,8 @@
             <div>
               <label for="currencyCode">Valyuta</label>
               <select id="currencyCode" class="form-control">
-                <option value="UZS">UZS (So'm)</option>
-                <option value="USD">USD (AQSH Dollari)</option>
+                <option value="UZS">UZS (O'zbekiston so'mi)</option>
+                <option value="USD">USD (AQSH dollari)</option>
                 <option value="EUR">EUR (Yevro)</option>
               </select>
             </div>
@@ -811,16 +893,16 @@
 
           <div class="form-group">
             <label for="debtDescription">Qisqacha Ma'lumot (Description)</label>
-            <input type="text" id="debtDescription" class="form-control" placeholder="Sabab yoki izoh (ixtiyoriy)" />
+            <input type="text" id="debtDescription" class="form-control" placeholder="Sabab yoki izoh (masalan: Monro kafe, lavash)" />
           </div>
 
           <div class="form-row-2 form-group">
             <div>
-              <label for="dateIncurred">Qarz olingan/berilgan sana</label>
+              <label for="dateIncurred">Qarz olingan/berilgan sana va vaqt</label>
               <input type="datetime-local" id="dateIncurred" class="form-control" />
             </div>
             <div>
-              <label for="dateDue">Qaytarish muddati</label>
+              <label for="dateDue">Qaytarish sanasi va vaqti</label>
               <input type="datetime-local" id="dateDue" class="form-control" />
             </div>
           </div>
@@ -832,7 +914,7 @@
             </label>
             <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
               <input type="checkbox" id="reminderEnabled" checked />
-              <span>Eslatma yoqilsin</span>
+              <span>Eslatma (Reminder) yoqilsin</span>
             </label>
           </div>
         </div>
@@ -849,9 +931,11 @@
     <div class="modal-dialog">
       <div class="modal-header">
         <h3>Tizim Sozlamalari (Profile & Settings)</h3>
-        <button class="btn-close" onclick="closeSettingsModal()">✕</button>
+        <button class="btn-close" onclick="closeSettingsModal()">
+          <svg class="svg-icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
       </div>
-      <form id="settingsForm" onsubmit="saveSettings(event)">
+      <form id="settingsForm" onsubmit="handleSaveSettings(event)">
         <div class="modal-body">
           <div class="form-group">
             <label for="defCurrency">Asosiy Valyuta</label>
@@ -889,25 +973,25 @@
   </div>
 
   <script>
-    let activeTab = 'owed_to';
+    let currentTab = 'owed_to';
     let token = null;
-    let debtsCache = [];
+    let localCache = [];
 
-    // Pul formatlovchi
+    // Format Money
     function formatMoney(amount, currency = "UZS") {
       const val = Number(amount) || 0;
       return `${currency} ${val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     }
 
-    // Sana formatlovchi
+    // Format Date
     function formatDate(str) {
       if (!str) return '—';
       const d = new Date(str);
       return d.toLocaleDateString('uz-UZ', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
     }
 
-    // Tizimga avtomatik autentifikatsiya
-    async function authenticate() {
+    // Authenticate
+    async function init() {
       const username = "debt_user";
       const password = "password123";
 
@@ -934,15 +1018,58 @@
         const data = await res.json();
         token = data.access_token;
 
-        await loadMonitoringStats();
-        await fetchDebtsData();
+        // Auto-seed if database is empty on first visit
+        const checkDebts = await fetch('/api/debts/', { headers: { 'Authorization': `Bearer ${token}` } });
+        const existing = await checkDebts.json();
+        if (existing.length === 0) {
+          await seedDemoData(false);
+        }
+
+        await loadMonitoring();
+        await loadDebts();
       } catch (err) {
         console.error("Auth error:", err);
       }
     }
 
-    // Monitoring statistikasini yuklash
-    async function loadMonitoringStats() {
+    // Seed Demo Sample Data from Assignment
+    async function seedDemoData(notify = true) {
+      if (!token) return;
+      const samples = [
+        { person_name: "Tuychi aka", debt_type: "owed_to", amount: 27000, currency: "UZS", description: "Monro kafee, lavash" },
+        { person_name: "Tuychi aka", debt_type: "owed_to", amount: 37000, currency: "UZS", description: "Tushlik xarajatlari" },
+        { person_name: "Tuychi aka", debt_type: "owed_by", amount: 51000, currency: "UZS", description: "Kanselyariya mahsulotlari" },
+        { person_name: "Maruf,abduhoshim", debt_type: "owed_to", amount: 60000, currency: "UZS", description: "Yo'l xarajati" },
+        { person_name: "Besulton", debt_type: "owed_to", amount: 80000, currency: "UZS", description: "Kitob xaridi" },
+        { person_name: "Azamat", debt_type: "owed_to", amount: 600000, currency: "UZS", description: "Loyiha xizmati" },
+        { person_name: "Azamat", debt_type: "owed_to", amount: 500000, currency: "UZS", description: "Texnik yordam" },
+        { person_name: "Azamat", debt_type: "owed_by", amount: 1786000, currency: "UZS", description: "Materiallar sotib olish" },
+        { person_name: "AZIZ", debt_type: "owed_to", amount: 50000, currency: "UZS", description: "Yoqilg'i uchun" },
+        { person_name: "AZIZ", debt_type: "owed_to", amount: 100000, currency: "UZS", description: "Internet to'lovi" },
+        { person_name: "AZIZ", debt_type: "owed_by", amount: 1562000, currency: "UZS", description: "Server ijarasi" },
+        { person_name: "Botir", debt_type: "owed_by", amount: 179000, currency: "UZS", description: "Kommunal to'lovlar" },
+        { person_name: "Building bot", debt_type: "owed_to", amount: 1500000, currency: "UZS", description: "Bot integratsiyasi" },
+        { person_name: "Building bot", debt_type: "owed_by", amount: 2586000, currency: "UZS", description: "API obunalari" },
+      ];
+
+      for (const item of samples) {
+        await fetch('/api/debts/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(item)
+        });
+      }
+
+      await loadMonitoring();
+      await loadDebts();
+      if (notify) alert("Namuna ma'lumotlar muvaffaqiyatli yuklandi!");
+    }
+
+    // Load Monitoring Stats
+    async function loadMonitoring() {
       if (!token) return;
       try {
         const res = await fetch('/api/monitoring/', {
@@ -969,14 +1096,19 @@
         document.getElementById('totalCountDisplay').innerText = `${m.total_debts_count} ta`;
         document.getElementById('statsCountNote').innerText = `${m.active_debts_count} faol / ${m.paid_debts_count} to'langan`;
 
-        // Valyutalar bo'yicha breakdown
+        // Valyutalar breakdown
         const pillBox = document.getElementById('currencyPillsContainer');
-        pillBox.innerHTML = `<span class="currency-pill-label">Valyutalar bo'yicha hisob:</span>`;
+        pillBox.innerHTML = `
+          <span class="currency-row-title">
+            <svg class="svg-icon sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path><path d="M12 18V6"></path></svg>
+            Valyutalar bo'yicha hisob:
+          </span>
+        `;
         if (m.currency_breakdown && m.currency_breakdown.length > 0) {
           m.currency_breakdown.forEach(c => {
             const isPos = c.net_balance >= 0;
             const badge = document.createElement('div');
-            badge.className = 'currency-badge';
+            badge.className = 'currency-pill';
             badge.innerHTML = `
               <span>${c.currency}:</span>
               <strong style="color: ${isPos ? 'var(--success)' : 'var(--danger)'}">
@@ -991,40 +1123,39 @@
       }
     }
 
-    // Tab o'zgartirish
-    function changeTab(tab) {
-      activeTab = tab;
-      document.querySelectorAll('.tab-item').forEach(btn => btn.classList.remove('active'));
+    // Switch Tab
+    function switchTab(tab) {
+      currentTab = tab;
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       document.getElementById(`tab-${tab}`).classList.add('active');
-      fetchDebtsData();
+      loadDebts();
     }
 
-    // Qarzlar ma'lumotlarini serverdan olish
-    async function fetchDebtsData() {
+    // Load Debts
+    async function loadDebts() {
       if (!token) return;
       const sortField = document.getElementById('sortField').value;
       const sortOrder = document.getElementById('sortOrder').value;
 
       try {
-        const url = `/api/debts/?debt_type=${activeTab}&sort_by=${sortField}&order=${sortOrder}`;
+        const url = `/api/debts/?debt_type=${currentTab}&sort_by=${sortField}&order=${sortOrder}`;
         const res = await fetch(url, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
-        debtsCache = await res.json();
-        renderTableRows(debtsCache);
-        loadMonitoringStats();
+        localCache = await res.json();
+        renderTable(localCache);
+        loadMonitoring();
       } catch (e) {
-        console.error("Fetch debts error:", e);
+        console.error("Fetch error:", e);
       }
     }
 
-    // Jadvalni render qilish
-    function renderTableRows(items) {
+    // Render Table
+    function renderTable(items) {
       const thead = document.getElementById('tableHead');
       const tbody = document.getElementById('tableBody');
 
-      if (activeTab === 'individual') {
-        // Individual hisobot jadvali
+      if (currentTab === 'individual') {
         thead.innerHTML = `
           <tr>
             <th>Shaxs (Name)</th>
@@ -1037,29 +1168,35 @@
         `;
 
         if (!items || items.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="6" class="empty-state-box"><h4>Hozircha hech qanday ma'lumot yo'q</h4><p>Yangi qarz qo'shish tugmasi orqali qarz kiriting.</p></td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="6" class="empty-state"><h4>Hozircha ma'lumot yo'q</h4><p>Yangi qarz kiritish uchun yuqoridagi tugmani bosing.</p></td></tr>`;
           return;
         }
 
         tbody.innerHTML = items.map(item => {
-          const isPositive = item.net_balance > 0;
-          const isNegative = item.net_balance < 0;
-          const colorClass = isPositive ? 'green' : (isNegative ? 'red' : '');
-          const statusBadge = isPositive
-            ? `<span class="badge-type owed-to">Sizdan qarzdor</span>`
-            : (isNegative ? `<span class="badge-type owed-by">Siz qarzdorsiz</span>` : `<span class="badge-status">Balans teng</span>`);
+          const isPos = item.net_balance > 0;
+          const isNeg = item.net_balance < 0;
+          const color = isPos ? 'green' : (isNeg ? 'red' : '');
+          const statusBadge = isPos
+            ? `<span class="type-pill owed-to">
+                <svg class="svg-icon sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Sizdan qarzdor
+               </span>`
+            : (isNeg ? `<span class="type-pill owed-by">
+                <svg class="svg-icon sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                Siz qarzdorsiz
+               </span>` : `<span class="status-pill">Balans teng</span>`);
 
           return `
             <tr>
               <td>
-                <div class="user-profile-cell">
-                  <div class="avatar">${item.person_name.charAt(0).toUpperCase()}</div>
-                  <div class="user-name-text">${item.person_name}</div>
+                <div class="user-cell">
+                  <div class="user-avatar">${item.person_name.charAt(0).toUpperCase()}</div>
+                  <div class="user-name">${item.person_name}</div>
                 </div>
               </td>
-              <td><span style="color: var(--success); font-weight:700;">${formatMoney(item.total_owed_to, item.currency)}</span></td>
-              <td><span style="color: var(--danger); font-weight:700;">${formatMoney(item.total_owed_by, item.currency)}</span></td>
-              <td><span class="amount-display ${colorClass}">${formatMoney(item.net_balance, item.currency)}</span></td>
+              <td><span style="color:var(--success); font-weight:700;">${formatMoney(item.total_owed_to, item.currency)}</span></td>
+              <td><span style="color:var(--danger); font-weight:700;">${formatMoney(item.total_owed_by, item.currency)}</span></td>
+              <td><span class="amount-text ${color}">${formatMoney(item.net_balance, item.currency)}</span></td>
               <td><strong>${item.debts_count} ta</strong></td>
               <td>${statusBadge}</td>
             </tr>
@@ -1067,52 +1204,66 @@
         }).join('');
 
       } else {
-        // Berilgan yoki olingan qarzlar jadvali
         thead.innerHTML = `
           <tr>
             <th>Shaxs (Name)</th>
-            <th>Turi</th>
-            <th>Qiymati</th>
-            <th>Sanasi</th>
+            <th>Qarz Turi</th>
+            <th>Summasi</th>
+            <th>Berilgan/Olingan Sana</th>
             <th>Qaytarish Muddati</th>
-            <th>To'lov Holati</th>
-            <th>Amallar</th>
+            <th>Holati</th>
+            <th>Amal</th>
           </tr>
         `;
 
         if (!items || items.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="7" class="empty-state-box"><h4>Ushbu bo'limda qarzlar topilmadi</h4><p>Yuqoridagi "Yangi Qarz Qo'shish" tugmasini bosing.</p></td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="7" class="empty-state"><h4>Ushbu bo'limda qarzlar topilmadi</h4><p>Yangi qarz kiritish uchun yuqoridagi tugmani bosing.</p></td></tr>`;
           return;
         }
 
         tbody.innerHTML = items.map(item => {
           const isTo = item.debt_type === 'owed_to';
           const typeBadge = isTo
-            ? `<span class="badge-type owed-to">🟢 Berilgan (To Me)</span>`
-            : `<span class="badge-type owed-by">🔴 Olingan (By Me)</span>`;
+            ? `<span class="type-pill owed-to">
+                <svg class="svg-icon sm" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                Berilgan (To Me)
+               </span>`
+            : `<span class="type-pill owed-by">
+                <svg class="svg-icon sm" viewBox="0 0 24 24"><line x1="17" y1="7" x2="7" y2="17"></line><polyline points="17 17 7 17 7 7"></polyline></svg>
+                Olingan (By Me)
+               </span>`;
 
           const statusBadge = item.is_paid
-            ? `<span class="badge-status paid">✓ To'langan</span>`
-            : `<span class="badge-status unpaid">⏳ Kutilmoqda</span>`;
+            ? `<span class="status-pill paid">
+                <svg class="svg-icon sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                To'langan
+               </span>`
+            : `<span class="status-pill unpaid">
+                <svg class="svg-icon sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                Kutilmoqda
+               </span>`;
 
           return `
             <tr>
               <td>
-                <div class="user-profile-cell">
-                  <div class="avatar">${item.person_name.charAt(0).toUpperCase()}</div>
+                <div class="user-cell">
+                  <div class="user-avatar">${item.person_name.charAt(0).toUpperCase()}</div>
                   <div>
-                    <div class="user-name-text">${item.person_name}</div>
-                    ${item.description ? `<div class="user-desc-text">${item.description}</div>` : ''}
+                    <div class="user-name">${item.person_name}</div>
+                    ${item.description ? `<div class="user-desc">${item.description}</div>` : ''}
                   </div>
                 </div>
               </td>
               <td>${typeBadge}</td>
-              <td><span class="amount-display ${isTo ? 'green' : 'red'}">${formatMoney(item.amount, item.currency)}</span></td>
+              <td><span class="amount-text ${isTo ? 'green' : 'red'}">${formatMoney(item.amount, item.currency)}</span></td>
               <td>${formatDate(item.date_incurred)}</td>
               <td>${formatDate(item.date_due)}</td>
               <td>${statusBadge}</td>
               <td>
-                <button class="btn-action" onclick="deleteDebtItem(${item.id})" title="O'chirish">🗑️ O'chirish</button>
+                <button class="btn-delete" onclick="removeDebt(${item.id})" title="O'chirish">
+                  <svg class="svg-icon sm" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                  O'chirish
+                </button>
               </td>
             </tr>
           `;
@@ -1120,22 +1271,22 @@
       }
     }
 
-    // Tezkor qidiruv
-    function filterLocalSearch() {
+    // Search filter
+    function filterSearch() {
       const q = document.getElementById('searchInput').value.toLowerCase().trim();
       if (!q) {
-        renderTableRows(debtsCache);
+        renderTable(localCache);
         return;
       }
-      const filtered = debtsCache.filter(item => {
+      const filtered = localCache.filter(item => {
         const nameMatch = item.person_name.toLowerCase().includes(q);
         const descMatch = item.description ? item.description.toLowerCase().includes(q) : false;
         return nameMatch || descMatch;
       });
-      renderTableRows(filtered);
+      renderTable(filtered);
     }
 
-    // Modal ochish/yopish
+    // Modal logic
     function openNewDebtModal() {
       const now = new Date();
       now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
@@ -1146,7 +1297,7 @@
       document.getElementById('debtDescription').value = '';
       document.getElementById('isFullyPaid').checked = false;
 
-      if (activeTab === 'owed_by') {
+      if (currentTab === 'owed_by') {
         document.querySelector('input[name="modal_type"][value="owed_by"]').checked = true;
       } else {
         document.querySelector('input[name="modal_type"][value="owed_to"]').checked = true;
@@ -1165,16 +1316,15 @@
       const cardTo = document.getElementById('radio-card-to');
       const cardBy = document.getElementById('radio-card-by');
       if (val === 'owed_to') {
-        cardTo.className = 'radio-card active-to';
-        cardBy.className = 'radio-card';
+        cardTo.className = 'radio-card-type active-to';
+        cardBy.className = 'radio-card-type';
       } else {
-        cardTo.className = 'radio-card';
-        cardBy.className = 'radio-card active-by';
+        cardTo.className = 'radio-card-type';
+        cardBy.className = 'radio-card-type active-by';
       }
     }
 
-    // Yangi qarz saqlash
-    async function submitNewDebt(e) {
+    async function handleSaveDebt(e) {
       e.preventDefault();
       const person_name = document.getElementById('personName').value.trim();
       const amount = parseFloat(document.getElementById('amountValue').value);
@@ -1210,7 +1360,7 @@
 
         if (res.ok) {
           closeNewDebtModal();
-          fetchDebtsData();
+          loadDebts();
         } else {
           const err = await res.json();
           alert("Xatolik: " + JSON.stringify(err.detail));
@@ -1220,8 +1370,7 @@
       }
     }
 
-    // Qarzni o'chirish
-    async function deleteDebtItem(id) {
+    async function removeDebt(id) {
       if (!confirm("Haqiqatan ham ushbu qarzni o'chirmoqchimisiz?")) return;
       try {
         const res = await fetch(`/api/debts/${id}`, {
@@ -1229,14 +1378,13 @@
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (res.ok) {
-          fetchDebtsData();
+          loadDebts();
         }
       } catch (e) {
         console.error(e);
       }
     }
 
-    // Sozlamalar modal
     async function openSettingsModal() {
       try {
         const res = await fetch('/api/settings/', {
@@ -1259,7 +1407,7 @@
       document.getElementById('settingsModal').classList.remove('active');
     }
 
-    async function saveSettings(e) {
+    async function handleSaveSettings(e) {
       e.preventDefault();
       const payload = {
         default_currency: document.getElementById('defCurrency').value,
@@ -1279,16 +1427,16 @@
         });
         if (res.ok) {
           closeSettingsModal();
-          loadMonitoringStats();
-          fetchDebtsData();
+          loadMonitoring();
+          loadDebts();
         }
       } catch (e) {
         console.error(e);
       }
     }
 
-    // Boshlash
-    authenticate();
+    // Start
+    init();
   </script>
 </body>
 </html>
