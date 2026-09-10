@@ -3,12 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Debt Manager — Qarzlarni boshqarish</title>
   <title>Debt Manager — Qarzlarni Hisoblash va Monitoring Tizimi</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
+      --primary-color: #1254a3;
+      --primary-dark: #0d3e7a;
+      --accent-color: #0b57d0;
+      --bg-color: #f1f3f4;
+      --card-bg: #ffffff;
+      --text-main: #202124;
+      --text-muted: #5f6368;
+      --positive: #137333;
+      --negative: #c5221f;
+      --border-color: #dadce0;
       --primary: #2563eb;
       --primary-dark: #1d4ed8;
       --primary-light: #eff6ff;
@@ -31,17 +43,42 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
       font-family: 'Inter', sans-serif;
     }
 
     body {
+      background-color: #1e1e24;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       background-color: var(--bg);
       color: var(--text-main);
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+      padding: 16px;
     }
 
+    /* Mobile Container Frame */
+    .app-wrapper {
+      width: 100%;
+      max-width: 440px;
+      height: 860px;
+      max-height: 96vh;
+      background: var(--card-bg);
+      border-radius: 28px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+      border: 8px solid #2d2d38;
+    }
+
+    /* Top Action Bar */
+    .top-bar {
+      background-color: var(--primary-color);
+      color: #fff;
+      padding: 14px 16px 8px 16px;
     /* Top Navigation */
     header {
       background: var(--surface);
@@ -58,8 +95,10 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      align-items: center;
     }
 
+    .top-bar .title-box {
     .brand {
       display: flex;
       align-items: center;
@@ -68,6 +107,7 @@
       color: var(--text-main);
     }
 
+    .top-bar h1 {
     .brand-icon {
       width: 40px;
       height: 40px;
@@ -79,9 +119,14 @@
       color: white;
       font-weight: 800;
       font-size: 20px;
+      font-weight: 500;
       box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
     }
 
+    .top-bar a.docs-link {
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      text-decoration: none;
     .brand-text h1 {
       font-size: 18px;
       font-weight: 700;
@@ -90,21 +135,43 @@
 
     .brand-text p {
       font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 12px;
+      transition: 0.2s;
       color: var(--text-muted);
     }
+    .top-bar a.docs-link:hover {
+      background: rgba(255, 255, 255, 0.35);
+    }
 
+    /* Tabs */
+    .tabs-bar {
+      background-color: var(--primary-color);
     .nav-actions {
       display: flex;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
       align-items: center;
       gap: 12px;
     }
 
+    .tab-btn {
+      flex: 1;
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 13px;
     .btn {
       padding: 9px 16px;
       border-radius: 8px;
       font-size: 13.5px;
       font-weight: 600;
+      letter-spacing: 0.5px;
+      padding: 12px 4px;
       cursor: pointer;
+      text-align: center;
+      position: relative;
+      transition: all 0.2s;
+      text-transform: uppercase;
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -113,6 +180,8 @@
       text-decoration: none;
     }
 
+    .tab-btn.active {
+      color: #ffffff;
     .btn-primary {
       background-color: var(--primary);
       color: white;
@@ -122,6 +191,15 @@
       box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
     }
 
+    .tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 10%;
+      width: 80%;
+      height: 3.5px;
+      background-color: #ffffff;
+      border-radius: 4px 4px 0 0;
     .btn-outline {
       background: white;
       border-color: var(--border);
@@ -132,6 +210,10 @@
       border-color: #cbd5e1;
     }
 
+    /* Filter Subheader */
+    .filter-bar {
+      background-color: #f8f9fa;
+      padding: 8px 16px;
     /* Main Container */
     main {
       flex: 1;
@@ -160,8 +242,20 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 13px;
+      color: var(--text-muted);
     }
 
+    .filter-bar select {
+      border: none;
+      background: transparent;
+      font-size: 13px;
+      color: var(--text-main);
+      font-weight: 500;
+      cursor: pointer;
+      outline: none;
     .metric-card::before {
       content: '';
       position: absolute;
@@ -171,17 +265,30 @@
       height: 100%;
     }
 
+    /* Content Area */
+    .debt-list {
+      flex: 1;
+      overflow-y: auto;
+      background: #ffffff;
+    }
     .metric-card.owed-to::before { background: var(--success); }
     .metric-card.owed-by::before { background: var(--danger); }
     .metric-card.balance::before { background: var(--primary); }
 
+    .list-item {
     .metric-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding: 14px 16px;
+      border-bottom: 1px solid #f1f3f4;
+      cursor: pointer;
+      transition: background 0.15s;
       margin-bottom: 12px;
     }
 
+    .list-item:hover {
+      background-color: #f8fafd;
     .metric-title {
       font-size: 13.5px;
       font-weight: 600;
@@ -190,6 +297,9 @@
       letter-spacing: 0.5px;
     }
 
+    .list-item .left-info {
+      flex: 1;
+      min-width: 0;
     .metric-badge {
       font-size: 11.5px;
       font-weight: 600;
@@ -197,6 +307,11 @@
       border-radius: 6px;
     }
 
+    .list-item .person-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #202124;
+      margin-bottom: 2px;
     .metric-badge.green { background: var(--success-light); color: var(--success); }
     .metric-badge.red { background: var(--danger-light); color: var(--danger); }
     .metric-badge.blue { background: var(--primary-light); color: var(--primary); }
@@ -208,11 +323,20 @@
       margin-bottom: 6px;
     }
 
+    .list-item .person-desc {
+      font-size: 13px;
     .metric-sub {
       font-size: 12.5px;
       color: var(--text-muted);
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
+    .list-item .date-row {
+      font-size: 12px;
+      color: #80868b;
     /* Content Section */
     .content-panel {
       background: var(--surface);
@@ -222,6 +346,8 @@
       overflow: hidden;
     }
 
+    .list-item .right-info {
+      text-align: right;
     /* Tabs Header */
     .panel-header {
       padding: 16px 24px;
@@ -230,9 +356,15 @@
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
+      gap: 8px;
       gap: 16px;
     }
 
+    .list-item .amount-badge {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #202124;
+      white-space: nowrap;
     .tabs {
       display: flex;
       gap: 6px;
@@ -241,6 +373,9 @@
       border-radius: 10px;
     }
 
+    .list-item .arrow {
+      color: #9aa0a6;
+      font-size: 16px;
     .tab-button {
       padding: 8px 18px;
       border-radius: 8px;
@@ -253,19 +388,38 @@
       transition: all 0.2s;
     }
 
+    /* Individual List Item Specifics */
+    .individual-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      border-bottom: 1px solid #f1f3f4;
     .tab-button.active {
       background: var(--surface);
       color: var(--primary);
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.06);
     }
 
+    .individual-avatar {
+      width: 44px;
+      height: 44px;
+      background: #e8eaed;
+      border-radius: 4px;
     .panel-controls {
       display: flex;
+      justify-content: center;
       align-items: center;
+      color: #5f6368;
+      font-size: 20px;
+      font-weight: bold;
+      margin-right: 14px;
+      flex-shrink: 0;
       gap: 12px;
       flex-wrap: wrap;
     }
 
+    .individual-details {
+      flex: 1;
     .search-input {
       padding: 8px 12px;
       border: 1px solid var(--border);
@@ -278,6 +432,11 @@
       border-color: var(--primary);
     }
 
+    .individual-details .name {
+      font-size: 15px;
+      font-weight: 600;
+      color: #202124;
+      margin-bottom: 3px;
     .control-select {
       padding: 8px 12px;
       border: 1px solid var(--border);
@@ -289,6 +448,7 @@
       cursor: pointer;
     }
 
+    .individual-details .to-from-row {
     /* Table & Cards */
     .table-responsive {
       width: 100%;
@@ -307,22 +467,30 @@
       padding: 14px 20px;
       font-weight: 600;
       font-size: 12px;
+      color: #5f6368;
       color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.5px;
       border-bottom: 1px solid var(--border);
     }
 
+    .individual-details .to-me {
+      color: #1254a3;
+      font-weight: 500;
     td {
       padding: 16px 20px;
       border-bottom: 1px solid var(--border);
       vertical-align: middle;
     }
 
+    .individual-details .by-me {
+      color: #c5221f;
+      font-weight: 500;
     tbody tr:hover {
       background-color: #f8fafc;
     }
 
+    .individual-balance {
     .person-cell {
       display: flex;
       align-items: center;
@@ -340,18 +508,30 @@
       font-weight: 700;
       color: #475569;
       font-size: 14px;
+      font-weight: 700;
+      text-align: right;
     }
 
+    .balance-positive {
+      color: #1254a3;
     .person-name {
       font-weight: 600;
       color: var(--text-main);
     }
 
+    .balance-negative {
+      color: #c5221f;
     .person-desc {
       font-size: 12.5px;
       color: var(--text-muted);
     }
 
+    /* Bottom Total Bar */
+    .bottom-bar {
+      background-color: var(--primary-color);
+      color: #ffffff;
+      padding: 14px 18px;
+      font-size: 15px;
     .amount-badge {
       font-size: 14.5px;
       font-weight: 700;
@@ -367,6 +547,8 @@
       border-radius: 6px;
       font-size: 12px;
       font-weight: 600;
+      display: flex;
+      justify-content: space-between;
     }
 
     .tag-owed-to { background: var(--success-light); color: var(--success); }
@@ -375,6 +557,7 @@
     .tag-status {
       display: inline-flex;
       align-items: center;
+      z-index: 5;
       gap: 5px;
       padding: 3px 8px;
       border-radius: 6px;
@@ -382,15 +565,32 @@
       font-weight: 600;
     }
 
+    /* Floating Action Button (FAB) */
+    .fab-btn {
+      position: absolute;
+      bottom: 60px;
+      right: 20px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background-color: var(--primary-color);
+      color: white;
     .status-paid { background: #dcfce7; color: #15803d; }
     .status-pending { background: #fef3c7; color: #b45309; }
 
     .action-btn {
       background: none;
       border: none;
+      font-size: 28px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       padding: 6px;
       color: var(--text-muted);
       cursor: pointer;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+      transition: transform 0.2s, background-color 0.2s;
+      z-index: 10;
       border-radius: 6px;
       transition: all 0.15s;
     }
@@ -399,15 +599,28 @@
       color: var(--danger);
     }
 
+    .fab-btn:hover {
+      transform: scale(1.08);
+      background-color: var(--primary-dark);
     .empty-state {
       padding: 60px 20px;
       text-align: center;
       color: var(--text-muted);
     }
 
+    /* Modal (New Debt) */
+    .modal-overlay {
     /* Modal Backdrop & Dialog */
     .modal-backdrop {
       display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #ffffff;
+      z-index: 20;
+      flex-direction: column;
       position: fixed;
       inset: 0;
       background: rgba(15, 23, 42, 0.6);
@@ -418,6 +631,7 @@
       padding: 20px;
     }
 
+    .modal-overlay.active {
     .modal-backdrop.active {
       display: flex;
     }
@@ -438,6 +652,9 @@
     }
 
     .modal-header {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 16px;
       padding: 20px 24px;
       border-bottom: 1px solid var(--border);
       display: flex;
@@ -445,11 +662,17 @@
       align-items: center;
     }
 
+    .modal-header h2 {
     .modal-header h3 {
       font-size: 18px;
+      font-weight: 500;
       font-weight: 700;
     }
 
+    .modal-header .actions {
+      display: flex;
+      gap: 16px;
+      font-size: 22px;
     .close-modal-btn {
       background: none;
       border: none;
@@ -459,15 +682,29 @@
     }
 
     .modal-body {
+      flex: 1;
+      padding: 16px 20px;
       padding: 24px;
       max-height: 75vh;
       overflow-y: auto;
     }
 
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      color: #70757a;
+      text-transform: uppercase;
+      margin-bottom: 12px;
     .form-row {
       margin-bottom: 18px;
     }
 
+    .status-group {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      margin-bottom: 16px;
     .form-row label {
       display: block;
       font-size: 13px;
@@ -476,25 +713,53 @@
       color: var(--text-main);
     }
 
+    .radio-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     .form-control {
       width: 100%;
       padding: 10px 14px;
       border: 1px solid var(--border);
       border-radius: 8px;
       font-size: 14px;
+      font-weight: 500;
+      color: #3c4043;
+      cursor: pointer;
       outline: none;
       transition: border-color 0.15s;
     }
+
+    .paid-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #e8eaed;
+      margin-bottom: 16px;
+      font-size: 14px;
+      color: #3c4043;
     .form-control:focus {
       border-color: var(--primary);
     }
 
+    .form-group {
+      margin-bottom: 20px;
     .form-grid-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 14px;
     }
 
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%;
+      padding: 10px 4px;
+      border: none;
+      border-bottom: 1.5px solid #bdc1c6;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s;
+      background: transparent;
     .type-switcher {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -502,6 +767,8 @@
       margin-bottom: 18px;
     }
 
+    .form-group input:focus, .form-group textarea:focus {
+      border-bottom-color: var(--primary-color);
     .type-radio-card {
       border: 2px solid var(--border);
       border-radius: 10px;
@@ -513,44 +780,88 @@
       transition: all 0.15s;
     }
 
+    .amount-currency-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
     .type-radio-card input {
       display: none;
     }
 
+    .amount-currency-row input {
+      flex: 2;
     .type-radio-card.active-to {
       border-color: var(--success);
       background: var(--success-light);
       color: var(--success);
     }
 
+    .amount-currency-row select {
+      flex: 1;
+      font-weight: 600;
     .type-radio-card.active-by {
       border-color: var(--danger);
       background: var(--danger-light);
       color: var(--danger);
     }
 
+    .date-row-picker {
     .modal-footer {
       padding: 16px 24px;
       background: #f8fafc;
       border-top: 1px solid var(--border);
       display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid #e8eaed;
+      font-size: 13.5px;
+      color: #5f6368;
       justify-content: flex-end;
       gap: 12px;
     }
 
+    .date-row-picker input[type="datetime-local"] {
+      border: 1px solid #dadce0;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 13px;
+      color: #202124;
+      outline: none;
+    }
+
+    .reminder-checkbox {
+      margin-top: 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
     /* Settings modal specific */
     .settings-notice {
       background: #f1f5f9;
       padding: 12px;
       border-radius: 8px;
       font-size: 12.5px;
+      color: #5f6368;
       color: var(--text-muted);
       margin-top: 12px;
+    }
+
+    .empty-state {
+      padding: 40px 20px;
+      text-align: center;
+      color: #80868b;
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
 
+  <div class="app-wrapper">
+    <!-- Top Action Bar -->
+    <div class="top-bar">
+      <div class="title-box">
+        <span style="font-size: 18px; cursor: pointer;">←</span>
+        <h1>Debt Manager</h1>
   <!-- Top Navigation Header -->
   <header>
     <div class="navbar">
@@ -572,9 +883,19 @@
           <span>➕</span> Yangi Qarz Qo'shish
         </button>
       </div>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <a href="/docs" target="_blank" class="docs-link" title="FastAPI Swagger Hujjatlari">Swagger API ↗</a>
+        <span style="font-size: 20px; cursor: pointer;">⋮</span>
+      </div>
     </div>
   </header>
 
+    <!-- Tabs -->
+    <div class="tabs-bar">
+      <button class="tab-btn active" id="tab-owed-to" onclick="switchTab('owed_to')">OWED TO ME</button>
+      <button class="tab-btn" id="tab-owed-by" onclick="switchTab('owed_by')">OWED BY ME</button>
+      <button class="tab-btn" id="tab-individual" onclick="switchTab('individual')">INDIVIDUALS</button>
+    </div>
   <!-- Main Content -->
   <main>
     <!-- Top Statistics Dashboard -->
@@ -588,6 +909,18 @@
         <div class="metric-sub" id="activeOwedToCount">Sizdan qarzdor bo'lganlar yig'indisi</div>
       </div>
 
+    <!-- Filter Subheader -->
+    <div class="filter-bar">
+      <select id="sortField" onchange="renderCurrentTab()">
+        <option value="date_incurred">Date Incurred</option>
+        <option value="amount">Amount</option>
+        <option value="name">Name</option>
+      </select>
+      <select id="sortOrder" onchange="renderCurrentTab()">
+        <option value="asc">Ascending ▾</option>
+        <option value="desc">Descending ▴</option>
+      </select>
+    </div>
       <div class="metric-card owed-by">
         <div class="metric-header">
           <span class="metric-title">Umumiy Qarz Olingan</span>
@@ -597,6 +930,9 @@
         <div class="metric-sub" id="activeOwedByCount">Siz qaytarishingiz kerak bo'lgan summa</div>
       </div>
 
+    <!-- Content List -->
+    <div class="debt-list" id="debtListContainer">
+      <div class="empty-state">Yuklanmoqda...</div>
       <div class="metric-card balance">
         <div class="metric-header">
           <span class="metric-title">Joriy Balans (Farqi)</span>
@@ -607,6 +943,9 @@
       </div>
     </div>
 
+    <!-- Bottom Total Bar -->
+    <div class="bottom-bar" id="bottomBar">
+      <span>Total: UZS 0.00</span>
     <!-- Main Table Panel -->
     <div class="content-panel">
       <div class="panel-header">
@@ -648,10 +987,20 @@
     </div>
   </main>
 
+    <!-- Floating Action Button -->
+    <button class="fab-btn" onclick="openNewDebtModal()" title="Yangi qarz qo'shish">+</button>
+
+    <!-- New Debt Modal Screen -->
+    <div class="modal-overlay" id="newDebtModal">
   <!-- New Debt Modal -->
   <div class="modal-backdrop" id="newDebtModal">
     <div class="modal-dialog">
       <div class="modal-header">
+        <h2>New Debt</h2>
+        <div class="actions">
+          <span onclick="closeNewDebtModal()" title="Bekor qilish">✕</span>
+          <span onclick="submitNewDebt()" title="Saqlash" style="font-weight: bold;">✓</span>
+        </div>
         <h3>Yangi Qarz Kiritish</h3>
         <button class="close-modal-btn" onclick="closeNewDebtModal()">✕</button>
       </div>
@@ -668,11 +1017,21 @@
             </label>
           </div>
 
+      <div class="modal-body">
+        <div class="section-label">DEBT STATUS</div>
           <div class="form-row">
             <label for="debtPersonName">Shaxsning to'liq ismi (Name) *</label>
             <input type="text" id="debtPersonName" class="form-control" placeholder="Masalan: Azamat yoki Tuychi aka" required />
           </div>
 
+        <div class="status-group">
+          <label class="radio-label">
+            <input type="radio" name="modal_debt_type" value="owed_to" checked> Owed To Me
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="modal_debt_type" value="owed_by"> Owed By Me
+          </label>
+        </div>
           <div class="form-grid-2 form-row">
             <div>
               <label for="debtAmount">Qarz Qiymati (Amount) *</label>
@@ -689,11 +1048,17 @@
             </div>
           </div>
 
+        <div class="paid-row">
+          <input type="checkbox" id="modal_is_paid">
+          <label for="modal_is_paid" style="cursor: pointer;">Fully Paid</label>
+        </div>
           <div class="form-row">
             <label for="debtDescription">Qisqacha Tavsif (Description)</label>
             <input type="text" id="debtDescription" class="form-control" placeholder="Izoh yoki sabab (ixtiyoriy)" />
           </div>
 
+        <div class="form-group">
+          <input type="text" id="modal_name" placeholder="Name [REQUIRED]" required />
           <div class="form-grid-2 form-row">
             <div>
               <label for="debtDateIncurred">Olingan/Berilgan sana</label>
@@ -724,6 +1089,13 @@
     </div>
   </div>
 
+        <div class="form-group">
+          <div class="amount-currency-row">
+            <input type="number" id="modal_amount" step="0.01" placeholder="Amount [REQUIRED]" required />
+            <select id="modal_currency">
+              <option value="UZS">UZS</option>
+              <option value="USD">USD</option>
+              <option value="EUR">EUR</option>
   <!-- Settings Modal -->
   <div class="modal-backdrop" id="settingsModal">
     <div class="modal-dialog">
@@ -741,7 +1113,11 @@
               <option value="EUR">EUR - Yevro</option>
             </select>
           </div>
+        </div>
 
+        <div class="form-group">
+          <input type="text" id="modal_description" placeholder="Description" />
+        </div>
           <div class="form-grid-2 form-row">
             <div>
               <label for="settingsReminderTime">Standart Eslatma Vaqti</label>
@@ -753,6 +1129,10 @@
             </div>
           </div>
 
+        <div class="date-row-picker">
+          <span>Date Incurred:</span>
+          <input type="datetime-local" id="modal_date_incurred" />
+        </div>
           <div class="form-row">
             <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
               <input type="checkbox" id="settingsNotifications" checked />
@@ -760,14 +1140,25 @@
             </label>
           </div>
 
+        <div class="date-row-picker">
+          <span>Date Due:</span>
+          <input type="datetime-local" id="modal_date_due" />
           <div class="settings-notice">
             Ushbu sozlamalar barcha yangi qarzlar va monitoring dashboardi uchun asosiy standart sifatida ishlatiladi.
           </div>
         </div>
+
+        <div class="reminder-checkbox">
+          <input type="checkbox" id="modal_reminder" checked />
+          <label for="modal_reminder">
+            Add reminder to calendar<br>
+            <span style="font-size: 11px; color: #80868b;">(Adjust default notice period in Settings)</span>
+          </label>
         <div class="modal-footer">
           <button type="button" class="btn btn-outline" onclick="closeSettingsModal()">Yopish</button>
           <button type="submit" class="btn btn-primary">Saqlash</button>
         </div>
+      </div>
       </form>
     </div>
   </div>
@@ -777,12 +1168,22 @@
     let token = null;
     let cachedData = [];
 
+    // Helper: format currency
+    function formatMoney(amount, currency = "UZS") {
+      const num = Number(amount) || 0;
+      return `${currency}${num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     // Format money helper
     function fmtMoney(num, curr = "UZS") {
       const val = Number(num) || 0;
       return `${curr} ${val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     }
 
+    // Helper: format date
+    function formatDate(dtStr) {
+      if (!dtStr) return '-';
+      const d = new Date(dtStr);
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      return `${d.getDate()} ${months[d.getMonth()]} '${String(d.getFullYear()).slice(-2)}`;
     // Format date helper
     function fmtDate(str) {
       if (!str) return '-';
@@ -790,12 +1191,18 @@
       return d.toLocaleDateString('uz-UZ', { year: 'numeric', month: 'short', day: 'numeric' });
     }
 
+    // Initialize Auth (registers or logs in a default local session user)
+    async function initAuth() {
     // Auth & Init
     async function init() {
       const username = "debt_user";
       const password = "password123";
 
       try {
+        const username = "debt_user";
+        const password = "password123";
+
+        // Try login
         let res = await fetch('/api/auth/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -803,11 +1210,20 @@
         });
 
         if (!res.ok) {
+          // Register
           await fetch('/api/auth/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              username,
+              password,
+              email: "debt_user@example.com",
+              full_name: "Azizjon"
+            })
             body: JSON.stringify({ username, password, email: "user@example.com", full_name: "Azizjon" })
           });
+
+          // Login after register
           res = await fetch('/api/auth/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -817,6 +1233,13 @@
 
         const data = await res.json();
         token = data.access_token;
+        
+        // Seed initial sample data if completely empty
+        await seedSampleDataIfEmpty();
+        
+        renderCurrentTab();
+      } catch (e) {
+        console.error("Auth error:", e);
 
         await loadMonitoring();
         await loadData();
@@ -825,6 +1248,29 @@
       }
     }
 
+    async function seedSampleDataIfEmpty() {
+      const res = await fetch('/api/debts/', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const debts = await res.json();
+      if (debts.length === 0) {
+        // Seed exact data from assignment screenshots
+        const samples = [
+          { person_name: "Tuychi aka", debt_type: "owed_to", amount: 27000, currency: "UZS", description: "Monro kafee, lavash" },
+          { person_name: "Tuychi aka", debt_type: "owed_to", amount: 37000, currency: "UZS", description: "" },
+          { person_name: "Tuychi aka", debt_type: "owed_by", amount: 51000, currency: "UZS", description: "" },
+          { person_name: "Maruf,abduhoshim", debt_type: "owed_to", amount: 60000, currency: "UZS", description: "" },
+          { person_name: "Besulton", debt_type: "owed_to", amount: 80000, currency: "UZS", description: "" },
+          { person_name: "Azamat", debt_type: "owed_to", amount: 600000, currency: "UZS", description: "" },
+          { person_name: "Azamat", debt_type: "owed_to", amount: 500000, currency: "UZS", description: "" },
+          { person_name: "Azamat", debt_type: "owed_by", amount: 1786000, currency: "UZS", description: "" },
+          { person_name: "AZIZ", debt_type: "owed_to", amount: 50000, currency: "UZS", description: "" },
+          { person_name: "AZIZ", debt_type: "owed_to", amount: 100000, currency: "UZS", description: "" },
+          { person_name: "AZIZ", debt_type: "owed_by", amount: 1562000, currency: "UZS", description: "" },
+          { person_name: "Botir", debt_type: "owed_by", amount: 179000, currency: "UZS", description: "" },
+          { person_name: "Building bot", debt_type: "owed_to", amount: 1500000, currency: "UZS", description: "" },
+          { person_name: "Building bot", debt_type: "owed_by", amount: 2586000, currency: "UZS", description: "" },
+        ];
     // Load Monitoring Dashboard Metrics
     async function loadMonitoring() {
       if (!token) return;
@@ -834,6 +1280,15 @@
         });
         const m = await res.json();
 
+        for (const item of samples) {
+          await fetch('/api/debts/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(item)
+          });
         document.getElementById('totalOwedTo').innerText = fmtMoney(m.total_owed_to, m.default_currency);
         document.getElementById('totalOwedBy').innerText = fmtMoney(m.total_owed_by, m.default_currency);
 
@@ -854,6 +1309,11 @@
       }
     }
 
+    function switchTab(tabName) {
+      currentTab = tabName;
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(`tab-${tabName.replace('_', '-')}`).classList.add('active');
+      renderCurrentTab();
     // Tab switching
     function setTab(tab) {
       currentTab = tab;
@@ -862,9 +1322,11 @@
       loadData();
     }
 
+    async function renderCurrentTab() {
     // Load Table Data
     async function loadData() {
       if (!token) return;
+      const container = document.getElementById('debtListContainer');
       const sortField = document.getElementById('sortField').value;
       const sortOrder = document.getElementById('sortOrder').value;
 
@@ -873,6 +1335,7 @@
         const res = await fetch(url, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
+        const data = await res.json();
         cachedData = await res.json();
         renderTable(cachedData);
         loadMonitoring();
@@ -881,10 +1344,16 @@
       }
     }
 
+        // Also fetch monitoring data for bottom total
+        const monRes = await fetch('/api/monitoring/', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const monData = await monRes.json();
     function renderTable(items) {
       const thead = document.getElementById('tableHead');
       const tbody = document.getElementById('tableBody');
 
+        container.innerHTML = '';
       if (currentTab === 'individual') {
         // Individual aggregation table
         thead.innerHTML = `
@@ -898,11 +1367,30 @@
           </tr>
         `;
 
+        if (currentTab === 'individual') {
+          // Render Individuals tab
+          if (!data || data.length === 0) {
+            container.innerHTML = '<div class="empty-state">Hali hech qanday qarzlar mavjud emas.</div>';
+          } else {
+            data.forEach(item => {
+              const isNegative = item.net_balance < 0;
+              const formattedNet = `${isNegative ? '-' : ''}${formatMoney(Math.abs(item.net_balance), item.currency)}`;
+              const balanceClass = isNegative ? 'balance-negative' : 'balance-positive';
         if (!items || items.length === 0) {
           tbody.innerHTML = `<tr><td colspan="6" class="empty-state">Hech qanday ma'lumot topilmadi.</td></tr>`;
           return;
         }
 
+              const el = document.createElement('div');
+              el.className = 'individual-item';
+              el.innerHTML = `
+                <div class="individual-avatar">👤</div>
+                <div class="individual-details">
+                  <div class="name">${item.person_name}</div>
+                  <div class="to-from-row">
+                    To Me: <span class="to-me">${Number(item.total_owed_to).toFixed(2)}</span><br>
+                    By Me: <span class="by-me">${Number(item.total_owed_by).toFixed(2)}</span>
+                  </div>
         tbody.innerHTML = items.map(item => {
           const isPos = item.net_balance > 0;
           const isNeg = item.net_balance < 0;
@@ -918,6 +1406,17 @@
                   <div class="avatar-icon">${item.person_name.charAt(0).toUpperCase()}</div>
                   <div class="person-name">${item.person_name}</div>
                 </div>
+                <div class="individual-balance ${balanceClass}">
+                  ${formattedNet} <span style="color:#9aa0a6; font-weight:normal;">&gt;</span>
+                </div>
+              `;
+              container.appendChild(el);
+            });
+          }
+
+          const isNetNeg = monData.current_balance < 0;
+          document.getElementById('bottomBar').innerHTML = `
+            <span>Total: ${isNetNeg ? '-' : ''}${formatMoney(Math.abs(monData.current_balance), monData.default_currency)}</span>
               </td>
               <td><span style="color: var(--success); font-weight:600;">${fmtMoney(item.total_owed_to, item.currency)}</span></td>
               <td><span style="color: var(--danger); font-weight:600;">${fmtMoney(item.total_owed_by, item.currency)}</span></td>
@@ -928,6 +1427,23 @@
           `;
         }).join('');
 
+        } else {
+          // Render OWED TO ME or OWED BY ME
+          let runningTotal = 0;
+          if (!data || data.length === 0) {
+            container.innerHTML = `<div class="empty-state">Ushbu bo'limda qarzlar mavjud emas.</div>`;
+          } else {
+            data.forEach(item => {
+              runningTotal += item.amount;
+              const el = document.createElement('div');
+              el.className = 'list-item';
+              el.innerHTML = `
+                <div class="left-info">
+                  <div class="person-title">${item.person_name}</div>
+                  ${item.description ? `<div class="person-desc">${item.description}</div>` : ''}
+                  <div class="date-row">
+                    Incurred: ${formatDate(item.date_incurred)}<br>
+                    Due: ${formatDate(item.date_due)}
       } else {
         // Debts list (owed_to or owed_by)
         thead.innerHTML = `
@@ -967,6 +1483,17 @@
                     ${item.description ? `<div class="person-desc">${item.description}</div>` : ''}
                   </div>
                 </div>
+                <div class="right-info">
+                  <div class="amount-badge">${formatMoney(item.amount, item.currency)}</div>
+                  <div class="arrow">&gt;</div>
+                </div>
+              `;
+              container.appendChild(el);
+            });
+          }
+
+          document.getElementById('bottomBar').innerHTML = `
+            <span>Total: ${formatMoney(runningTotal, monData.default_currency)}</span>
               </td>
               <td>${typeBadge}</td>
               <td><span class="amount-badge ${isTo ? 'positive' : 'negative'}">${fmtMoney(item.amount, item.currency)}</span></td>
@@ -978,10 +1505,14 @@
               </td>
             </tr>
           `;
+        }
         }).join('');
       }
     }
 
+      } catch (e) {
+        console.error("Fetch error:", e);
+        container.innerHTML = '<div class="empty-state">Ma\'lumotlarni yuklashda xatolik yuz berdi.</div>';
     // Search filter
     function handleSearch() {
       const query = document.getElementById('searchInput').value.toLowerCase().trim();
@@ -995,8 +1526,15 @@
 
     // New Debt Modal Handlers
     function openNewDebtModal() {
+      // Set default datetime to now
       const now = new Date();
       now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+      document.getElementById('modal_date_incurred').value = now.toISOString().slice(0, 16);
+      document.getElementById('modal_date_due').value = '';
+      document.getElementById('modal_name').value = '';
+      document.getElementById('modal_amount').value = '';
+      document.getElementById('modal_description').value = '';
+      document.getElementById('modal_is_paid').checked = false;
       document.getElementById('debtDateIncurred').value = now.toISOString().slice(0, 16);
       document.getElementById('debtDateDue').value = '';
       document.getElementById('debtPersonName').value = '';
@@ -1004,10 +1542,13 @@
       document.getElementById('debtDescription').value = '';
       document.getElementById('debtIsPaid').checked = false;
 
+      // Match modal debt_type to current tab
       // Select active radio card based on current tab
       if (currentTab === 'owed_by') {
+        document.querySelector('input[name="modal_debt_type"][value="owed_by"]').checked = true;
         document.querySelector('input[name="debt_type"][value="owed_by"]').checked = true;
       } else {
+        document.querySelector('input[name="modal_debt_type"][value="owed_to"]').checked = true;
         document.querySelector('input[name="debt_type"][value="owed_to"]').checked = true;
       }
       updateTypeSwitcher();
@@ -1019,6 +1560,20 @@
       document.getElementById('newDebtModal').classList.remove('active');
     }
 
+    async function submitNewDebt() {
+      const person_name = document.getElementById('modal_name').value.trim();
+      const amount = parseFloat(document.getElementById('modal_amount').value);
+      const currency = document.getElementById('modal_currency').value;
+      const description = document.getElementById('modal_description').value.trim();
+      const debt_type = document.querySelector('input[name="modal_debt_type"]:checked').value;
+      const is_paid = document.getElementById('modal_is_paid').checked;
+      const date_incurred = document.getElementById('modal_date_incurred').value || null;
+      const date_due = document.getElementById('modal_date_due').value || null;
+      const reminder_enabled = document.getElementById('modal_reminder').checked;
+
+      if (!person_name) {
+        alert("Iltimos, shaxs ismini (Name) kiriting!");
+        return;
     function updateTypeSwitcher() {
       const val = document.querySelector('input[name="debt_type"]:checked').value;
       const lblTo = document.getElementById('label-owed-to');
@@ -1029,6 +1584,10 @@
       } else {
         lblTo.className = 'type-radio-card';
         lblBy.className = 'type-radio-card active-by';
+      }
+      if (isNaN(amount) || amount <= 0) {
+        alert("Iltimos, to'g'ri qarz miqdorini (Amount) kiriting!");
+        return;
       }
     }
 
@@ -1057,6 +1616,18 @@
       };
 
       try {
+        const payload = {
+          person_name,
+          debt_type,
+          amount,
+          currency,
+          description: description || null,
+          is_paid,
+          date_incurred: date_incurred ? new Date(date_incurred).toISOString() : null,
+          date_due: date_due ? new Date(date_due).toISOString() : null,
+          reminder_enabled
+        };
+
         const res = await fetch('/api/debts/', {
           method: 'POST',
           headers: {
@@ -1068,6 +1639,7 @@
 
         if (res.ok) {
           closeNewDebtModal();
+          renderCurrentTab();
           loadData();
         } else {
           const err = await res.json();
@@ -1090,10 +1662,13 @@
           loadData();
         }
       } catch (e) {
+        alert("So'rov yuborishda xatolik: " + e.message);
         console.error(e);
       }
     }
 
+    // Start app
+    initAuth();
     // Settings Handlers
     async function openSettingsModal() {
       try {
@@ -1150,3 +1725,4 @@
   </script>
 </body>
 </html>
+
